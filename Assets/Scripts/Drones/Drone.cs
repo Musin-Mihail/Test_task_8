@@ -2,15 +2,11 @@ using UnityEngine;
 
 public class Drone : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public int DroneID { get; private set; }
 
-    // Update is called once per frame
-    void Update()
+    public void Initialize(int id)
     {
-        
+        DroneID = id;
+        Debug.Log($"Drone ID {DroneID}: Инициализирован.");
     }
 }
