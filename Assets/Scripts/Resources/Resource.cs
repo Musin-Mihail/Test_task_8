@@ -1,16 +1,12 @@
 using UnityEngine;
 
-public class Resource : MonoBehaviour
+namespace Resources
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class Resource : MonoBehaviour
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void Collect()
+        {
+            Debug.Log("Ресурс собран!");
+        }
     }
 }
