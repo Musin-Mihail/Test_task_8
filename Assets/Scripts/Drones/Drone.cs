@@ -1,12 +1,15 @@
 using UnityEngine;
 
-public class Drone : MonoBehaviour
+namespace Drones
 {
-    public int DroneID { get; private set; }
-
-    public void Initialize(int id)
+    public class Drone : MonoBehaviour
     {
-        DroneID = id;
-        Debug.Log($"Drone ID {DroneID}: Инициализирован.");
+        public int DroneID { get; private set; }
+
+        public void Initialize(int id)
+        {
+            DroneID = id;
+            Debug.Log($"Drone ID {DroneID}: Инициализирован.");
+        }
     }
 }

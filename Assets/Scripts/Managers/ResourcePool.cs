@@ -79,5 +79,10 @@ namespace Managers
                 _activeResources.Remove(resource);
             }
         }
+
+        public List<Resource> GetActiveResources()
+        {
+            return _activeResources;
+        }
     }
 }

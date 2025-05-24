@@ -1,16 +1,8 @@
 using UnityEngine;
 
-public class DroneCollisionAvoidance : MonoBehaviour
+namespace Drones
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class DroneCollisionAvoidance : MonoBehaviour
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Resources;
 using UnityEngine;
 
@@ -51,6 +52,19 @@ namespace Managers
             else
             {
                 Debug.LogError("ResourceManager: ResourcePool не установлен. Невозможно вернуть ресурс.");
+            }
+        }
+
+        public List<Resource> GetActiveResources()
+        {
+            if (resourcePool)
+            {
+                return resourcePool.GetActiveResources();
+            }
+            else
+            {
+                Debug.LogError("ResourceManager: ResourcePool не установлен. Невозможно получить активные ресурсы.");
+                return new List<Resource>();
             }
         }
     }
