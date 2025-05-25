@@ -66,18 +66,17 @@ namespace Drones
                     DepositResourceAtBase();
                 }
             }
-            else if (_targetResource && _navMeshAgent.enabled)
+            else if (_targetResource && !_navMeshAgent.isStopped)
             {
                 if (_navMeshAgent.destination != _targetResource.transform.position)
                 {
                     _navMeshAgent.SetDestination(_targetResource.transform.position);
                 }
 
-                if (Vector3.Distance(transform.position, _targetResource.transform.position) < 0.8f)
+                if (Vector3.Distance(transform.position, _targetResource.transform.position) < 0.6f)
                 {
                     Debug.Log($"Drone {_drone.DroneID} достиг ресурса. Запуск таймера перед сбором.");
                     _navMeshAgent.isStopped = true;
-                    _navMeshAgent.enabled = false;
                     StartCoroutine(CollectResourceWithDelay(_targetResource));
                     _targetResource = null;
                 }
@@ -98,7 +97,6 @@ namespace Drones
 
             if (_navMeshAgent)
             {
-                _navMeshAgent.enabled = true;
                 _navMeshAgent.ResetPath();
                 _navMeshAgent.isStopped = false;
                 _drone.State = Enums.DroneState.DeliveringResource;

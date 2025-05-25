@@ -33,10 +33,7 @@ namespace Managers
             {
                 droneManager.SpawnDrone(new Vector3(Random.Range(-10f, 10f), 0f, Random.Range(-10f, 10f)), baseBlue);
                 yield return new WaitForSeconds(SpawnInterval);
-            }
 
-            for (var i = 0; i < NumberOfDronesToSpawn; i++)
-            {
                 droneManager.SpawnDrone(new Vector3(Random.Range(-10f, 10f), 0f, Random.Range(-10f, 10f)), baseRed);
                 yield return new WaitForSeconds(SpawnInterval);
             }
