@@ -62,6 +62,7 @@ namespace Managers
             {
                 resourceToUse.transform.position = position;
                 resourceToUse.gameObject.SetActive(true);
+                resourceToUse.isAvailable = true;
                 _activeResources.Add(resourceToUse);
                 return resourceToUse;
             }
@@ -74,6 +75,7 @@ namespace Managers
             if (resource && _activeResources.Contains(resource))
             {
                 resource.gameObject.SetActive(false);
+                resource.isAvailable = false;
                 resource.transform.SetParent(_poolParent);
                 _availableResources.Enqueue(resource);
                 _activeResources.Remove(resource);

@@ -28,7 +28,7 @@ namespace Managers
             Debug.Log("GameManager: Запускаем спавн дронов...");
             for (var i = 0; i < NumberOfDronesToSpawn; i++)
             {
-                droneManager.SpawnDrone(new Vector3(Random.Range(-10f, 10f), Random.Range(-10f, 10f), 0f));
+                droneManager.SpawnDrone(new Vector3(Random.Range(-10f, 10f), 0f, Random.Range(-10f, 10f)));
                 yield return new WaitForSeconds(SpawnInterval);
             }
 
@@ -37,14 +37,14 @@ namespace Managers
 
         private IEnumerator SpawnResourcesRoutine()
         {
-            Debug.Log("GameManager: Запускаем спавн ресурсов..."); // Изменил сообщение для ясности
+            Debug.Log("GameManager: Запускаем спавн ресурсов...");
             for (var i = 0; i < NumberOfResourcesToSpawn; i++)
             {
-                resourceManager.SpawnResources(new Vector3(Random.Range(-10f, 10f), Random.Range(-10f, 10f), 0f));
+                resourceManager.SpawnResources(new Vector3(Random.Range(-10f, 10f), 0f, Random.Range(-10f, 10f)));
                 yield return new WaitForSeconds(SpawnInterval);
             }
 
-            Debug.Log("GameManager: Все ресурсы запрошены."); // Изменил сообщение для ясности
+            Debug.Log("GameManager: Все ресурсы запрошены.");
         }
     }
 }
