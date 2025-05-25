@@ -1,3 +1,4 @@
+using System.Collections;
 using Managers;
 using Resources;
 using UnityEngine;
@@ -51,7 +52,7 @@ namespace Drones
                 FindNearestResource();
             }
 
-            if (_targetResource)
+            if (_targetResource && _navMeshAgent.enabled)
             {
                 if (_navMeshAgent.destination != _targetResource.transform.position)
                 {
@@ -60,13 +61,34 @@ namespace Drones
 
                 if (Vector3.Distance(transform.position, _targetResource.transform.position) < 0.6f)
                 {
-                    Debug.Log($"Drone {_drone.DroneID} достиг ресурса. Передача на сбор.");
-                    _resourceCollector.CollectResource(_targetResource);
+                    Debug.Log($"Drone {_drone.DroneID} достиг ресурса. Запуск таймера перед сбором.");
+                    _navMeshAgent.isStopped = true;
+                    _navMeshAgent.enabled = false;
+                    StartCoroutine(CollectResourceWithDelay(_targetResource));
                     _targetResource = null;
-                    _navMeshAgent.ResetPath();
                 }
             }
         }
+
+        /// <summary>
+        /// Корутина для ожидания 2 секунд, воспроизведения анимации, а затем сбора ресурса.
+        /// </summary>
+        /// <param name="resourceToCollect">Ресурс для сбора.</param>
+        private IEnumerator CollectResourceWithDelay(Resource resourceToCollect)
+        {
+            resourceToCollect.PlayCollectionAnimation();
+            yield return new WaitForSeconds(2f);
+            Debug.Log($"Drone {_drone.DroneID} завершил ожидание. Передача на сбор ресурса.");
+            _resourceCollector.CollectResource(resourceToCollect);
+
+            if (_navMeshAgent)
+            {
+                _navMeshAgent.enabled = true;
+                _navMeshAgent.ResetPath();
+                _navMeshAgent.isStopped = false;
+            }
+        }
+
 
         /// <summary>
         /// Находит ближайший активный ресурс в сцене.
