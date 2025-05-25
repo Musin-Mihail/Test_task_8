@@ -48,6 +48,8 @@ namespace Managers
             {
                 resourcePool.ReturnResource(resource);
                 Debug.Log($"ResourceManager: Ресурс возвращен в пул.");
+                SpawnResources(new Vector3(Random.Range(-10f, 10f), Random.Range(-10f, 10f), 0f));
+                Debug.Log("ResourceManager: Создан новый ресурс после уничтожения.");
             }
             else
             {
