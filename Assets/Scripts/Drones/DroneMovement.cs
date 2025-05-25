@@ -3,6 +3,7 @@ using Managers;
 using Resources;
 using UnityEngine;
 using UnityEngine.AI;
+using Utilities;
 
 namespace Drones
 {
@@ -47,19 +48,32 @@ namespace Drones
 
         private void Update()
         {
-            if (!_targetResource)
+            if (!_targetResource && _drone.State == Enums.DroneState.SearchingForResource)
             {
                 FindNearestResource();
             }
 
-            if (_targetResource && _navMeshAgent.enabled)
+            if (_drone.State == Enums.DroneState.DeliveringResource)
+            {
+                if (_navMeshAgent.destination != _drone.BaseObj.transform.position)
+                {
+                    _navMeshAgent.SetDestination(_drone.BaseObj.transform.position);
+                }
+
+                if (Vector3.Distance(transform.position, _drone.BaseObj.transform.position) < 3.0f)
+                {
+                    Debug.Log($"Drone {_drone.DroneID} достиг базы.");
+                    DepositResourceAtBase();
+                }
+            }
+            else if (_targetResource && _navMeshAgent.enabled)
             {
                 if (_navMeshAgent.destination != _targetResource.transform.position)
                 {
                     _navMeshAgent.SetDestination(_targetResource.transform.position);
                 }
 
-                if (Vector3.Distance(transform.position, _targetResource.transform.position) < 0.6f)
+                if (Vector3.Distance(transform.position, _targetResource.transform.position) < 0.8f)
                 {
                     Debug.Log($"Drone {_drone.DroneID} достиг ресурса. Запуск таймера перед сбором.");
                     _navMeshAgent.isStopped = true;
@@ -77,6 +91,7 @@ namespace Drones
         private IEnumerator CollectResourceWithDelay(Resource resourceToCollect)
         {
             resourceToCollect.PlayCollectionAnimation();
+            _drone.State = Enums.DroneState.CollectingResource;
             yield return new WaitForSeconds(2f);
             Debug.Log($"Drone {_drone.DroneID} завершил ожидание. Передача на сбор ресурса.");
             _resourceCollector.CollectResource(resourceToCollect);
@@ -86,9 +101,20 @@ namespace Drones
                 _navMeshAgent.enabled = true;
                 _navMeshAgent.ResetPath();
                 _navMeshAgent.isStopped = false;
+                _drone.State = Enums.DroneState.DeliveringResource;
             }
         }
 
+        /// <summary>
+        /// Выгружает ресурс на базу и запускает частицы из базы.
+        /// </summary>
+        private void DepositResourceAtBase()
+        {
+            Debug.Log($"Drone {_drone.DroneID} выгружает ресурс на базу");
+            _drone.Base.DepositResource();
+            _drone.Base.PlayResourceParticles();
+            _drone.State = Enums.DroneState.SearchingForResource;
+        }
 
         /// <summary>
         /// Находит ближайший активный ресурс в сцене.
@@ -121,6 +147,7 @@ namespace Drones
             {
                 nearestResource.isAvailable = false;
                 _targetResource = nearestResource;
+                _drone.State = Enums.DroneState.MovingToResource;
                 Debug.Log($"Drone {_drone.DroneID} нашел ближайший ресурс в позиции {_targetResource.transform.position}.");
             }
             else

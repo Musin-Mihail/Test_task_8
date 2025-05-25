@@ -22,7 +22,7 @@ namespace Managers
             }
         }
 
-        public void SpawnDrone(Vector3 spawnPosition)
+        public void SpawnDrone(Vector3 spawnPosition, GameObject baseObj)
         {
             if (!_dronePrefabInternal)
             {
@@ -34,7 +34,7 @@ namespace Managers
 
             if (newDrone)
             {
-                newDrone.Initialize(_activeDrones.Count + 1);
+                newDrone.Initialize(_activeDrones.Count + 1, baseObj);
                 _activeDrones.Add(newDrone);
                 Debug.Log($"DroneManager: Создан дрон с ID: {newDrone.DroneID} в позиции: {spawnPosition}");
             }

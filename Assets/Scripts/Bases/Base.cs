@@ -1,16 +1,28 @@
 using UnityEngine;
 
-public class Base : MonoBehaviour
+namespace Bases
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class Base : MonoBehaviour
     {
-        
-    }
+        private ParticleSystem _particleSystem;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private void Start()
+        {
+            _particleSystem = GetComponent<ParticleSystem>();
+        }
+
+        public void DepositResource()
+        {
+        }
+
+        public void PlayResourceParticles()
+        {
+            if (_particleSystem)
+            {
+                _particleSystem.Play();
+            }
+
+            Debug.Log($"Воспроизведение анимации сбора для ресурса по адресу {transform.position}");
+        }
     }
 }

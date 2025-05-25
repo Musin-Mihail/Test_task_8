@@ -1,16 +1,15 @@
 using UnityEngine;
 
-public class Enums : MonoBehaviour
+namespace Utilities
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class Enums : MonoBehaviour
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public enum DroneState
+        {
+            SearchingForResource,
+            MovingToResource,
+            CollectingResource,
+            DeliveringResource
+        }
     }
 }
