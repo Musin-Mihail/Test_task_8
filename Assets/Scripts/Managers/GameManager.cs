@@ -22,8 +22,6 @@ namespace Managers
         public float ResourceSpawnFrequency { get; set; } = 0.5f;
         public bool DrawDronePath { get; set; } = true;
 
-        private const int NumberOfResourcesToSpawn = 10;
-
         private void Awake()
         {
             if (Instance == null)
@@ -114,9 +112,9 @@ namespace Managers
             for (var i = 0; i < NumberOfDronesPerFaction; i++)
             {
                 _droneManager.SpawnDrone(new Vector3(Random.Range(-10f, 10f), 0f, Random.Range(-10f, 10f)), _baseBlue);
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.1f);
                 _droneManager.SpawnDrone(new Vector3(Random.Range(-10f, 10f), 0f, Random.Range(-10f, 10f)), _baseRed);
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.1f);
             }
 
             Debug.Log("GameManager: Все дроны запрошены.");
@@ -125,13 +123,11 @@ namespace Managers
         private IEnumerator SpawnResourcesRoutine()
         {
             Debug.Log("GameManager: Запускаем спавн ресурсов...");
-            for (var i = 0; i < NumberOfResourcesToSpawn; i++)
+            while (_resourceManager)
             {
                 _resourceManager.SpawnResources(new Vector3(Random.Range(-10f, 10f), 0f, Random.Range(-10f, 10f)));
                 yield return new WaitForSeconds(ResourceSpawnFrequency);
             }
-
-            Debug.Log("GameManager: Все ресурсы запрошены.");
         }
 
         public void ExitToMenu()
