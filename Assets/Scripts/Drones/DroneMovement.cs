@@ -44,6 +44,15 @@ namespace Drones
             {
                 Debug.LogError("DroneMovement: NavMeshAgent не найден на этом GameObject!");
             }
+
+            if (GameManager.Instance)
+            {
+                _navMeshAgent.speed = GameManager.Instance.DroneSpeed;
+            }
+            else
+            {
+                Debug.LogWarning("GameManager.Instance is null. Скорость дрона не установлена из настроек.");
+            }
         }
 
         private void Update()
@@ -62,7 +71,7 @@ namespace Drones
 
                 if (Vector3.Distance(transform.position, _drone.BaseObj.transform.position) < 3.0f)
                 {
-                    Debug.Log($"Drone {_drone.DroneID} достиг базы.");
+                    Debug.Log($"Дрон {_drone.DroneID} достиг базы.");
                     DepositResourceAtBase();
                 }
             }
@@ -75,7 +84,7 @@ namespace Drones
 
                 if (Vector3.Distance(transform.position, _targetResource.transform.position) < 0.6f)
                 {
-                    Debug.Log($"Drone {_drone.DroneID} достиг ресурса. Запуск таймера перед сбором.");
+                    Debug.Log($"Дрон {_drone.DroneID} достиг ресурса. Запуск таймера перед сбором.");
                     _navMeshAgent.isStopped = true;
                     StartCoroutine(CollectResourceWithDelay(_targetResource));
                     _targetResource = null;
@@ -92,7 +101,7 @@ namespace Drones
             resourceToCollect.PlayCollectionAnimation();
             _drone.State = Enums.DroneState.CollectingResource;
             yield return new WaitForSeconds(2f);
-            Debug.Log($"Drone {_drone.DroneID} завершил ожидание. Передача на сбор ресурса.");
+            Debug.Log($"Дрон {_drone.DroneID} завершил ожидание. Передача на сбор ресурса.");
             _resourceCollector.CollectResource(resourceToCollect);
 
             if (_navMeshAgent)
@@ -108,7 +117,7 @@ namespace Drones
         /// </summary>
         private void DepositResourceAtBase()
         {
-            Debug.Log($"Drone {_drone.DroneID} выгружает ресурс на базу");
+            Debug.Log($"Дрон {_drone.DroneID} выгружает ресурс на базу");
             _drone.Base.DepositResource();
             _drone.Base.PlayResourceParticles();
             _drone.State = Enums.DroneState.SearchingForResource;
@@ -146,11 +155,11 @@ namespace Drones
                 nearestResource.isAvailable = false;
                 _targetResource = nearestResource;
                 _drone.State = Enums.DroneState.MovingToResource;
-                Debug.Log($"Drone {_drone.DroneID} нашел ближайший ресурс в позиции {_targetResource.transform.position}.");
+                Debug.Log($"Дрон {_drone.DroneID} нашел ближайший ресурс в позиции {_targetResource.transform.position}.");
             }
             else
             {
-                Debug.Log($"Drone {_drone.DroneID}: Ресурсы не найдены.");
+                Debug.Log($"Дрон {_drone.DroneID}: Ресурсы не найдены.");
             }
         }
     }
