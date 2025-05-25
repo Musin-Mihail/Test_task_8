@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Bases
@@ -5,6 +6,10 @@ namespace Bases
     public class Base : MonoBehaviour
     {
         private ParticleSystem _particleSystem;
+        private int _totalResourcesDeposited = 0;
+        public string baseID;
+
+        public static event Action<string, int> OnResourceDeposited;
 
         private void Start()
         {
@@ -13,6 +18,9 @@ namespace Bases
 
         public void DepositResource()
         {
+            _totalResourcesDeposited++;
+            Debug.Log($"База {baseID}: Общее количество ресурсов: {_totalResourcesDeposited}");
+            OnResourceDeposited?.Invoke(baseID, _totalResourcesDeposited);
         }
 
         public void PlayResourceParticles()
