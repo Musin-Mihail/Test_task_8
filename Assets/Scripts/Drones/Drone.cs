@@ -10,6 +10,7 @@ namespace Drones
         public GameObject BaseObj { get; private set; }
         public Base Base { get; private set; }
         public Enums.DroneState State { get; set; }
+        public bool showState;
 
         public void Initialize(int id, GameObject baseObj)
         {
@@ -18,6 +19,11 @@ namespace Drones
             Base = baseObj.GetComponent<Base>();
             GetComponent<MeshRenderer>().material = baseObj.GetComponent<MeshRenderer>().material;
             Debug.Log($"Drone ID {DroneID}: Инициализирован. {Base}");
+        }
+
+        public void ChangeState(Enums.DroneState state)
+        {
+            State = state;
         }
     }
 }

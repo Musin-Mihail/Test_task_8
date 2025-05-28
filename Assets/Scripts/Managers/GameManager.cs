@@ -24,7 +24,7 @@ namespace Managers
 
         private void Awake()
         {
-            if (Instance == null)
+            if (!Instance)
             {
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
@@ -99,7 +99,6 @@ namespace Managers
 
             Debug.Log($"Игра запущена с настройками: Дронов на фракцию: {NumberOfDronesPerFaction}, Скорость дронов: {DroneSpeed}, Частота спавна ресурсов: {ResourceSpawnFrequency}, Отрисовка пути: {DrawDronePath}");
 
-            _droneManager.InitializeDronePrefab(dronePrefab);
             StartCoroutine(SpawnDronesRoutine());
 
             _resourceManager.Initialize(resourcePrefab);

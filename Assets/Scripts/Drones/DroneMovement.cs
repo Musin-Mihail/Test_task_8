@@ -99,7 +99,7 @@ namespace Drones
         private IEnumerator CollectResourceWithDelay(Resource resourceToCollect)
         {
             resourceToCollect.PlayCollectionAnimation();
-            _drone.State = Enums.DroneState.CollectingResource;
+            _drone.ChangeState(Enums.DroneState.CollectingResource);
             yield return new WaitForSeconds(2f);
             Debug.Log($"Дрон {_drone.DroneID} завершил ожидание. Передача на сбор ресурса.");
             _resourceCollector.CollectResource(resourceToCollect);
@@ -108,7 +108,7 @@ namespace Drones
             {
                 _navMeshAgent.ResetPath();
                 _navMeshAgent.isStopped = false;
-                _drone.State = Enums.DroneState.DeliveringResource;
+                _drone.ChangeState(Enums.DroneState.DeliveringResource);
             }
         }
 
@@ -120,7 +120,7 @@ namespace Drones
             Debug.Log($"Дрон {_drone.DroneID} выгружает ресурс на базу");
             _drone.Base.DepositResource();
             _drone.Base.PlayResourceParticles();
-            _drone.State = Enums.DroneState.SearchingForResource;
+            _drone.ChangeState(Enums.DroneState.SearchingForResource);
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace Drones
             {
                 nearestResource.isAvailable = false;
                 _targetResource = nearestResource;
-                _drone.State = Enums.DroneState.MovingToResource;
+                _drone.ChangeState(Enums.DroneState.MovingToResource);
                 Debug.Log($"Дрон {_drone.DroneID} нашел ближайший ресурс в позиции {_targetResource.transform.position}.");
             }
             else

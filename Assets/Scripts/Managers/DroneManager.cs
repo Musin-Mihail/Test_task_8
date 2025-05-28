@@ -7,35 +7,23 @@ namespace Managers
     public class DroneManager : MonoBehaviour
     {
         private readonly List<Drone> _activeDrones = new();
-        private GameObject _dronePrefabInternal;
-
-        public void InitializeDronePrefab(GameObject prefab)
-        {
-            if (prefab)
-            {
-                _dronePrefabInternal = prefab;
-                Debug.Log("DroneManager: Префаб дрона инициализирован.");
-            }
-            else
-            {
-                Debug.LogError("DroneManager: Префаб дрона не может быть null!");
-            }
-        }
+        public GameObject dronePrefabInternal;
 
         public void SpawnDrone(Vector3 spawnPosition, GameObject baseObj)
         {
-            if (!_dronePrefabInternal)
+            if (!dronePrefabInternal)
             {
                 Debug.LogError("DroneManager: Невозможно создать дрон. Префаб дрона не установлен.");
             }
 
-            var droneGo = Instantiate(_dronePrefabInternal, spawnPosition, Quaternion.identity);
+            var droneGo = Instantiate(dronePrefabInternal, spawnPosition, Quaternion.identity);
             var newDrone = droneGo.GetComponent<Drone>();
 
             if (newDrone)
             {
                 newDrone.Initialize(_activeDrones.Count + 1, baseObj);
                 _activeDrones.Add(newDrone);
+                DroneStateManager.Instance.AddDrone(newDrone);
                 Debug.Log($"DroneManager: Создан дрон с ID: {newDrone.DroneID} в позиции: {spawnPosition}");
             }
             else

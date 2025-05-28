@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4c0b8afd210c6846ae9247f483a5aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textState: {fileID: 0}
 --- !u!114 &3459928912299357730
 MonoBehaviour:
   m_ObjectHideFlags: 0
