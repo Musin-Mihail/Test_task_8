@@ -19,7 +19,7 @@ namespace Camera
         private void Start()
         {
             _mainCamera = UnityEngine.Camera.main;
-            if (_mainCamera == null)
+            if (!_mainCamera)
             {
                 Debug.LogError("На сцене нет главной камеры (с тегом 'MainCamera').");
                 enabled = false;
